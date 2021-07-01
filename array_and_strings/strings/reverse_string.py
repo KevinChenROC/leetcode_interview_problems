@@ -1,5 +1,7 @@
 # Write a function that reverses a string. The input string is given as an array of characters.
 
+## Reversing a string is a classic example of two-pointer technique for iteration
+
 
 class Solution(object):
     def reverseString(self, s):
