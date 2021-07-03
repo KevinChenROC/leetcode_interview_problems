@@ -2,47 +2,28 @@
 
 
 class Solution(object):
-    def __maxSubArray(self, nums, start, end, table):
-        # base case
-        if start == end:
-            return nums[start]
-
-        if end in table[start]:
-            return table[start][end]
-
-        q = 0
-        for i in range(start, end + 1):
-            q += nums[i]
-        table[start][end] = q
-
-        return max(
-            q,
-            self.__maxSubArray(nums, start + 1, end, table),
-            self.__maxSubArray(nums, start, end - 1, table),
-        )
-
-    # Recursive solution without memorization
     def maxSubArray(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        # edge case
-        len_nums = len(nums)
-        if len_nums == 1:
-            return nums[0]
-
-        # Initialize the table for memorization
-        table = {}
-        for i in range(len_nums):
-            table[i] = {}
-
-        return self.__maxSubArray(nums, 0, len_nums - 1, table)
+        global_max, curr_sum = -(2 ** 31), 0
+        for i in range(len(nums)):
+            # if curr_sum becomes negative, it has no use for the next element, so we restart curr_sum from 0 again.
+            if curr_sum + nums[i] < 0:
+                curr_sum, global_max = 0, max(global_max, nums[i])
+            else:
+                # if curr_sum > 0, it's possible to make it bigger so we keep curr_sum.
+                curr_sum, global_max = curr_sum + nums[i], max(
+                    global_max, curr_sum + nums[i]
+                )
+        return global_max
 
 
 sol = Solution()
 print(sol.maxSubArray([1]))
 print(sol.maxSubArray([5, 4, -1, 7, 8]))
+print(sol.maxSubArray([-5, -4, -1, -7, -8]))
 print(sol.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
 
 
