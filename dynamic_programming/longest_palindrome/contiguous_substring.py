@@ -1,26 +1,6 @@
 # +++ START YOUR IMPLEMENTATION
 
 
-def len_palindrome(string):
-    """
-    return len(string) if string is palindrome else 0
-    """
-    str_len = len(string)
-
-    # How to check
-    # aaaxbaaa
-    # i      j
-    #  i    j
-    #   i  j
-    isPalindrome = True
-    for i in range(str_len // 2):
-        if string[i] != string[str_len - 1 - i]:
-            isPalindrome = False
-            break
-
-    return str_len if isPalindrome else 0
-
-
 def longest_palindrome(s):
     # Write a function to return the length of the longest palindrome
     # in an input string.
@@ -30,26 +10,54 @@ def longest_palindrome(s):
     #   longest_palindrome('') => 0
     #   longest_palindrome('fuasdfjh123454321ddd') => 9
 
-    s_len = len(s)
-    max_len = 0
+    len_s = len(s)
 
-    # check for every possbile combinations
-    # a a a x b a a a
-    # ij
-    # i j
-    # i   j
-    # so on...
-    for i in range(s_len):
-        for j in range(i, s_len):
-            max_len = max(max_len, len_palindrome(s[i : j + 1]))
+    # check for edge case
+    if len_s == 0 or len_s == 1:
+        return len_s
+
+    # If isPalindrome[i][j] is True --> s[i:j+1] is palindrome
+    # e.g. "abb" => isPalindrome[1][2] is True
+    isPalindrome = [[False] * len_s for _ in range(len_s)]
+
+    # s[i:i+1] is always a palindrome
+    for i in range(len_s):
+        isPalindrome[i][i] = True
+
+    # Example of how it works
+    # Let s = "Abab"
+    # 0  1  2  3
+    # A  b  a  b
+    #       i  j isPalindrome[2][3] = False
+    #    i  j    isPalindrome[1][2] = False
+    #    i     j isPalindrome[1][3] = isPalindrome[2][2] = True
+    #                                         --> max_len = j-i+1
+    # i  j       isPalindrome[0][1] = False
+    # i     j    isPalindrome[0][2] = False
+    # i        j isPalindrome[0][3] = False
+
+    max_len = 1
+    for i in range(len_s - 2, -1, -1):
+        for j in range(i + 1, len_s):
+            if s[i] == s[j]:
+                if j - i > 2:
+                    isPalindrome[i][j] = isPalindrome[i + 1][j - 1]
+                else:
+                    isPalindrome[i][j] = True
+
+                if isPalindrome[i][j]:
+
+                    max_len = max((j - i + 1), max_len)
+
     return max_len
 
 
 # --- START YOUR IMPLEMENTATION
 
+print(longest_palindrome(""))  # 0
+print(longest_palindrome("bx"))  # 1
 print(longest_palindrome("aab"))  # 2
 print(longest_palindrome("Aaab"))  # 2
 print(longest_palindrome("AaaA"))  # 4
-print(longest_palindrome(""))  # 0
-print(longest_palindrome("aaabxaaa"))  # 3
+print(longest_palindrome("aabxaa"))  # 2
 print(longest_palindrome("fuasdfjh123454321ddd"))  # 9
