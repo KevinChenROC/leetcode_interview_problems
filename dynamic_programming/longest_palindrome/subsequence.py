@@ -22,3 +22,4 @@ class Solution(object):
 
 sol = Solution()
 print(sol.longestPalindromeSubseq("bbbab"))
+print(sol.longestPalindromeSubseq("bbbaxbbb"))
