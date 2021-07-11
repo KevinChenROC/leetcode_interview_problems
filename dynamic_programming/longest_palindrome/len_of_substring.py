@@ -1,4 +1,4 @@
-# +++ START YOUR IMPLEMENTATION
+# a substring of a string S is a CONTIGUOUS subsequence of S
 
 
 def longest_palindrome(s):

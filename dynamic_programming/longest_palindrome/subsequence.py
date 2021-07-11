@@ -1,3 +1,7 @@
+# a subsequence of string S is a sequence whose elements belong to S, arranged in the same order as in S.
+# "abcde" ==> subsequence: "ace", "ad", etc.
+
+
 class Solution(object):
     def longestPalindromeSubseq(self, s):
         """
@@ -23,3 +27,4 @@ class Solution(object):
 sol = Solution()
 print(sol.longestPalindromeSubseq("bbbab"))
 print(sol.longestPalindromeSubseq("bbbaxbbb"))
+print(sol.longestPalindromeSubseq("ba123ab"))
